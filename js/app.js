@@ -1,50 +1,37 @@
-class App {
-    constructor() {
-        this.bindEvents();
-    }
+const btnGen = document.getElementById('btn-generate');
+const uiInput = document.getElementById('ui-input');
+const uiResult = document.getElementById('ui-result');
+const videoPlayer = document.getElementById('final-video');
+const loader = document.querySelector('.loader');
 
-    bindEvents() {
-        document.getElementById('btn-generate').onclick = () => this.startGeneration();
-        document.getElementById('btn-download').onclick = () => this.download();
-    }
+btnGen.addEventListener('click', async () => {
+    const prompt = document.getElementById('ai-prompt').value;
+    if (!prompt) return alert("Please enter a prompt!");
 
-    async startGeneration() {
-        this.navigate('loading');
-        const bar = document.getElementById('main-progress-bar');
-        const text = document.getElementById('progress-text');
-        
-        // Simulating AI Pipeline
-        for(let i=0; i<=100; i+=20) {
-            bar.style.width = i + '%';
-            text.innerText = "Processing: " + i + "%";
-            await new Promise(r => setTimeout(r, 800));
-        }
+    // UI change
+    uiInput.style.display = 'none';
+    uiResult.style.display = 'block';
+    videoPlayer.style.display = 'none';
+    loader.style.display = 'block';
 
-        // Show Video
-        const player = document.getElementById('final-video-player');
-        player.src = "https://www.w3schools.com/html/mov_bbb.mp4"; // Yahan apka generated video URL aayega
-        this.navigate('studio');
-        
-        // Mobile Safe Play
-        try {
-            await player.play();
-        } catch(e) {
-            console.log("Browser blocked autoplay, user must click play.");
-        }
-    }
+    // Simulate API Delay
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
-    download() {
-        const player = document.getElementById('final-video-player');
-        const a = document.createElement('a');
-        a.href = player.src;
-        a.download = "ai-video.mp4";
-        a.click();
-    }
+    // Show Video
+    loader.style.display = 'none';
+    videoPlayer.src = "https://www.w3schools.com/html/mov_bbb.mp4"; 
+    videoPlayer.style.display = 'block';
+    videoPlayer.play();
+});
 
-    navigate(view) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-' + view).classList.add('active');
-    }
-}
+document.getElementById('btn-download').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = videoPlayer.src;
+    a.download = "generated_video.mp4";
+    a.click();
+});
 
-const app = new App();
+document.getElementById('btn-back').addEventListener('click', () => {
+    uiInput.style.display = 'block';
+    uiResult.style.display = 'none';
+});
