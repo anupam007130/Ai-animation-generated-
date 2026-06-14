@@ -85,7 +85,30 @@
                     </div>
                 </div>
 
-                <button id="btn-generate" class="btn-primary ripple width-100">
+                <div class="form-row mt-15">
+                    <div class="form-group">
+                        <label>Language (Auto-Detect)</label>
+                        <select id="video-lang">
+                            <option value="auto">Auto Detect</option>
+                            <option value="hi">Hindi</option>
+                            <option value="en">English</option>
+                            <option value="ur">Urdu</option>
+                            <option value="bn">Bengali</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <select id="video-duration">
+                            <option value="auto">Auto (Based on prompt)</option>
+                            <option value="15">15 Seconds</option>
+                            <option value="30">30 Seconds</option>
+                            <option value="60">60 Seconds</option>
+                            <option value="120">2 Minutes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btn-generate" class="btn-primary ripple width-100 mt-15">
                     <i class="fa-solid fa-bolt"></i> Generate Full Video Studio
                 </button>
             </div>
@@ -94,23 +117,30 @@
         <section id="view-loading" class="view">
             <div class="loading-container text-center">
                 <div class="spinner-ring"></div>
-                <h2 id="loading-title">AI is thinking...</h2>
-                <div class="progress-steps">
-                    <div class="step" id="step-script"><i class="fa-solid fa-pen-nib"></i> Writing Script...</div>
-                    <div class="step" id="step-voice"><i class="fa-solid fa-microphone"></i> Generating Voice & Lip Sync...</div>
-                    <div class="step" id="step-video"><i class="fa-solid fa-film"></i> Rendering Animations...</div>
-                    <div class="step" id="step-metadata"><i class="fa-solid fa-chart-line"></i> Generating SEO & Metadata...</div>
+                <h2 id="loading-title">AI is crafting your vision...</h2>
+                
+                <div class="progress-bar-bg mt-15">
+                    <div id="main-progress-bar" class="progress-bar-fill"></div>
+                </div>
+                <p id="progress-percentage" class="mt-15" style="font-weight:bold;">0%</p>
+                
+                <div class="progress-steps mt-15">
+                    <div class="step" id="step-script"><span>0%</span> <i class="fa-solid fa-pen-nib"></i> Script & StoryFlow</div>
+                    <div class="step" id="step-voice"><span>0%</span> <i class="fa-solid fa-microphone"></i> Voice & Emotion</div>
+                    <div class="step" id="step-video"><span>0%</span> <i class="fa-solid fa-film"></i> Scene Generation & Rendering</div>
+                    <div class="step" id="step-metadata"><span>0%</span> <i class="fa-solid fa-chart-line"></i> SEO & Metadata</div>
                 </div>
             </div>
         </section>
 
         <section id="view-studio" class="view">
             <div class="video-preview-container card">
-                <div class="video-player-mock">
-                    <i class="fa-solid fa-play"></i>
-                </div>
-                <div class="player-controls">
-                    <div class="progress-bar-container"><div class="progress-bar"></div></div>
+                <video id="final-video-player" controls preload="metadata" class="width-100 hidden">
+                    Your browser does not support the video tag.
+                </video>
+                <div id="video-fallback" class="hidden text-center p-20">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: var(--warning); margin-bottom: 10px;"></i>
+                    <p>Video preview unavailable. You can still download the file.</p>
                 </div>
             </div>
 
@@ -130,18 +160,27 @@
                 </div>
                 
                 <div class="card meta-card">
-                    <h4>Generated Titles</h4>
-                    <ul id="gen-titles" class="copy-list"></ul>
+                    <div class="flex-between">
+                        <h4>Generated Titles</h4>
+                        <button class="icon-btn" onclick="app.copyToClipboard('gen-titles')"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <ul id="gen-titles" class="copy-list mt-15"></ul>
                 </div>
 
                 <div class="card meta-card">
-                    <h4>Smart Description</h4>
-                    <div id="gen-desc" class="copy-box"></div>
+                    <div class="flex-between">
+                        <h4>Smart Description</h4>
+                        <button class="icon-btn" onclick="app.copyToClipboard('gen-desc')"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <div id="gen-desc" class="copy-box mt-15"></div>
                 </div>
 
                 <div class="card meta-card">
-                    <h4>Viral Hashtags</h4>
-                    <div id="gen-tags" class="tag-cloud"></div>
+                    <div class="flex-between">
+                        <h4>Viral Hashtags</h4>
+                        <button class="icon-btn" onclick="app.copyToClipboard('gen-tags')"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <div id="gen-tags" class="tag-cloud mt-15"></div>
                 </div>
             </div>
 
@@ -150,7 +189,7 @@
                     <div class="thumb-mockup">
                         <h2 id="thumb-text">EPIC TITLE</h2>
                     </div>
-                    <button class="btn-secondary ripple mt-15"><i class="fa-solid fa-rotate"></i> Regenerate Style</button>
+                    <button class="btn-secondary ripple mt-15 width-100"><i class="fa-solid fa-rotate"></i> Regenerate Style</button>
                 </div>
             </div>
 
@@ -158,7 +197,7 @@
                 <div class="card">
                     <h4>Generated Script & Scenes</h4>
                     <textarea id="gen-script-editor" rows="10"></textarea>
-                    <button class="btn-secondary ripple mt-15"><i class="fa-solid fa-microphone-lines"></i> Regenerate Voice</button>
+                    <button class="btn-secondary ripple mt-15 width-100"><i class="fa-solid fa-microphone-lines"></i> Regenerate Voice</button>
                 </div>
             </div>
 
@@ -189,6 +228,8 @@
             <span>Settings</span>
         </a>
     </nav>
+
+    <div id="toast-container"></div>
 
     <script src="js/app.js"></script>
 </body>
