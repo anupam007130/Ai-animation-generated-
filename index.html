@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Studio Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Studio</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header class="app-bar"><h2>AI Video Studio</h2></header>
-    <main id="app-container">
-        <section id="view-create" class="view active">
+
+    <div class="container">
+        <h1>AI Video Studio</h1>
+        
+        <div id="ui-input">
             <textarea id="ai-prompt" placeholder="Sher jungle me shikar kar raha hai..." rows="4"></textarea>
-            <button id="btn-generate" class="btn-primary">Generate Video</button>
-        </section>
+            <button id="btn-generate">Generate Video</button>
+        </div>
 
-        <section id="view-loading" class="view">
-            <div class="progress-container">
-                <div id="main-progress-bar"></div>
-                <p id="progress-text">Initializing...</p>
-            </div>
-        </section>
+        <div id="ui-result" style="display:none;">
+            <div class="loader">Generating your video...</div>
+            <video id="final-video" controls playsinline></video>
+            <button id="btn-download">Download MP4</button>
+            <button id="btn-back">Create New</button>
+        </div>
+    </div>
 
-        <section id="view-studio" class="view">
-            <video id="final-video-player" playsinline muted controls></video>
-            <button id="btn-download" class="btn-primary">Download MP4</button>
-        </section>
-    </main>
     <script src="js/app.js"></script>
 </body>
 </html>
